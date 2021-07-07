@@ -3,55 +3,37 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
+import NavBar from './NavBar';
+import { URL_ARRAY } from './constants';
+import Checkbook from './checkbook-register/Checkbook';
 import Home from './Home';
 
-const URL_ARRAY = [
-  {
-    label: 'Home',
-    url: '/',
-  },
-  {
-    label: 'Medication List',
-    url: '/medication-list',
-  },
-  {
-    label: 'Checkbook Register',
-    url: '/checkbook-register',
-  },
-  {
-    label: 'Minesweeper',
-    url: '/minesweeper',
-  },
-]
-
 const App = () => {
-  const getNav = () => {
+  // why doesn't this work
+  const getSwitcher = () => {
     return (
-      <table>
-        <tr>
-          {URL_ARRAY.map((item) => {
-            const {label, url} = item;
-            return <td><Link to={url}>{label}</Link></td>;
-          })}
-        </tr>
-      </table>
+      <Switch>
+        {URL_ARRAY.map((item) => {
+          const {url, component} = item;
+          return <>
+            {component && <Route exact path={url}>{component}</Route>}
+          </>;
+        })}
+      </Switch>
     );
-  }
+  };
 
-  
   return (
     <Router>
     <div className="App">
       <header className="App-header">
-        an Amalgamation of coding challenges
-        {getNav()}
+        an Amalgamation of coding challenges and projects
+        <NavBar/>
       </header>
       <Switch>
-        <Route path='/'>
-          <Home/>
-        </Route>
+        <Route exact path='/'><Home /></Route>
+        <Route exact path='/checkbook-register'><Checkbook /></Route>
       </Switch>
     </div>
     </Router>
